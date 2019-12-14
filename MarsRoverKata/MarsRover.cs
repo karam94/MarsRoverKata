@@ -36,6 +36,13 @@ namespace MarsRoverKata
                 }
             }
 
+            if (_currentPosition.HasCrashed()){
+                return "O:" +
+                    $"{_currentPosition.GetX()}:" +
+                    $"{_currentPosition.GetY()}:" +
+                    $"{_currentDirection}";
+            }
+
             return $"{_currentPosition.GetX()}:" +
                    $"{_currentPosition.GetY()}:" +
                    $"{_currentDirection}";

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using MarsRoverKata;
 using NUnit.Framework;
 using Shouldly;
@@ -11,7 +12,8 @@ namespace MarsRoverKataTests
         [SetUp]
         public void Setup()
         {
-            _rover = new MarsRover(new MarsRoverGrid(10, 10));
+            var obstacles = new List<Coordinate>();
+            _rover = new MarsRover(new MarsRoverGrid(10, 10, obstacles));
         }
 
         [Test]
@@ -83,6 +85,36 @@ namespace MarsRoverKataTests
         public void WrapAroundGrid(string command, string expectedOutput)
         {
             _rover.Execute(command).ShouldBe(expectedOutput);
+        }
+
+        [Test]
+        [TestCase("MMMM", "O:0:2:N")]
+        [TestCase("MMMMMMM", "O:0:2:N")]
+        [TestCase("MMMMMMMMMMMMM", "O:0:2:N")]
+        public void StopBeforeAnObstacle(string command, string expectedOutput)
+        {
+            var obstacles = new List<Coordinate> { new Coordinate(0, 3) };
+            var gridWithObstacles = new MarsRoverGrid(10, 10, obstacles);
+            var rover = new MarsRover(gridWithObstacles);
+
+            rover.Execute(command).ShouldBe(expectedOutput);
+        }
+
+        [Test]
+        [TestCase("RMMMM", "O:2:0:E")]
+        [TestCase("RRMMMM", "O:0:8:S")]
+        [TestCase("RRRMMMM", "O:8:0:W")]
+        public void DodgeMultipleObstacles(string command, string expectedOutput)
+        {
+            var obstacles = new List<Coordinate> { new Coordinate(0, 3), 
+                                                    new Coordinate(3, 0), 
+                                                    new Coordinate(0, 7),
+                                                    new Coordinate(7, 0)
+            };
+            var gridWithObstacles = new MarsRoverGrid(10, 10, obstacles);
+            var rover = new MarsRover(gridWithObstacles);
+
+            rover.Execute(command).ShouldBe(expectedOutput);
         }
     }
 }
