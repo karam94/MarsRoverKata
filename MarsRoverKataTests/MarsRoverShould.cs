@@ -41,5 +41,33 @@ namespace MarsRoverKataTests
         {
             _rover.Execute(command).ShouldBe(expectedOutput);
         }
+
+        [Test]
+        [TestCase("RL", "0:0:N")]
+        [TestCase("RRL", "0:0:E")]
+        [TestCase("RRLLL", "0:0:W")]
+        public void RotateLeftThenRotateRight(string command, string expectedOutput)
+        {
+            _rover.Execute(command).ShouldBe(expectedOutput);
+        }
+
+        [Test]
+        [TestCase("M", "0:1:N")]
+        [TestCase("MM", "0:2:N")]
+        [TestCase("MMM", "0:3:N")]
+        public void MoveForward(string command, string expectedOutput)
+        {
+            _rover.Execute(command).ShouldBe(expectedOutput);
+        }     
+        
+        [Test]
+        [TestCase("RM", "1:0:E")]
+        [TestCase("RMM", "2:0:E")]
+        [TestCase("RMML", "2:0:N")]
+        [TestCase("RMMLM", "2:1:N")]
+        public void RotateAndMoveForward(string command, string expectedOutput)
+        {
+            _rover.Execute(command).ShouldBe(expectedOutput);
+        }
     }
 }
