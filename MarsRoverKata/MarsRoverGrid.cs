@@ -7,7 +7,7 @@ namespace MarsRoverKata
     {
         private readonly int _maximumX;
         private readonly int _maximumY;
-        private List<Coordinate> _obstacles;
+        private readonly List<Coordinate> _obstacles;
 
         public MarsRoverGrid(int maximumX, int maximumY, List<Coordinate> obstacles)
         {
@@ -30,7 +30,7 @@ namespace MarsRoverKata
                     return currentPosition;
                 }
 
-                currentPosition.SetCrashed();
+                RoverHasCrashed(currentPosition);
                 currentPosition.DecrementX(); // Crashed, so move back.
                 return currentPosition;
             }
@@ -45,7 +45,7 @@ namespace MarsRoverKata
                     return currentPosition;
                 }
 
-                currentPosition.SetCrashed();
+                RoverHasCrashed(currentPosition);
                 currentPosition.IncrementX(); // Crashed, so move back.
                 return currentPosition;
             }
@@ -60,7 +60,7 @@ namespace MarsRoverKata
                     return currentPosition;
                 }
 
-                currentPosition.SetCrashed();
+                RoverHasCrashed(currentPosition);
                 currentPosition.DecrementY(); // Crashed, so move back.
                 return currentPosition;
             }
@@ -75,7 +75,7 @@ namespace MarsRoverKata
                     return currentPosition;
                 }
 
-                currentPosition.SetCrashed();
+                RoverHasCrashed(currentPosition);
                 currentPosition.IncrementY(); // Crashed, so move back.
                 return currentPosition;
             }
@@ -85,13 +85,13 @@ namespace MarsRoverKata
 
         private bool HasHitObstacle(Coordinate newPosition)
         {
-            if (_obstacles.Any(x => x.GetX().Equals(newPosition.GetX())
-                                    && x.GetY().Equals(newPosition.GetY())))
-            {
-                return true;
-            }
+            return _obstacles.Any(x => x.GetX().Equals(newPosition.GetX())
+                                       && x.GetY().Equals(newPosition.GetY()));
+        }
 
-            return false;
+        private void RoverHasCrashed(Coordinate roverPosition)
+        {
+            roverPosition.SetCrashed();
         }
     }
 }

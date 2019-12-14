@@ -10,7 +10,6 @@ namespace MarsRoverKata
         public MarsRover(MarsRoverGrid grid)
         {
             _grid = grid;
-
             _currentDirection = "N";
             _currentPosition = new Coordinate(0, 0);
             _rotator = new MarsRoverRotator();
@@ -36,16 +35,9 @@ namespace MarsRoverKata
                 }
             }
 
-            if (_currentPosition.HasCrashed()){
-                return "O:" +
-                    $"{_currentPosition.GetX()}:" +
-                    $"{_currentPosition.GetY()}:" +
-                    $"{_currentDirection}";
-            }
-
-            return $"{_currentPosition.GetX()}:" +
-                   $"{_currentPosition.GetY()}:" +
-                   $"{_currentDirection}";
+            var roverOutput = $"{_currentPosition.GetX()}:" + $"{_currentPosition.GetY()}:" + $"{_currentDirection}";
+            if (_currentPosition.HasCrashed()) return "O:" + roverOutput;
+            return roverOutput;
         }
     }
 }
