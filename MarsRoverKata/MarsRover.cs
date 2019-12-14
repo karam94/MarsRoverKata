@@ -3,9 +3,15 @@ namespace MarsRoverKata
     public class MarsRover
     {
         private readonly MarsRoverRotator _rotator = new MarsRoverRotator();
-        private string _direction = "N";
-        private int _x;
-        private int _y;
+        private readonly MarsRoverMover _mover = new MarsRoverMover();
+        private string _currentDirection;
+        private Coordinate _currentPosition;
+
+        public MarsRover()
+        {
+            _currentDirection = "N";
+            _currentPosition = new Coordinate(0, 0);
+        }
 
         public string Execute(string commands)
         {
@@ -13,22 +19,23 @@ namespace MarsRoverKata
             {
                 if (command == 'R')
                 {
-                    _direction = _rotator.RotateRight(_direction);
+                    _currentDirection = _rotator.RotateRight(_currentDirection);
                 }
 
                 if (command == 'L')
                 {
-                    _direction = _rotator.RotateLeft(_direction);
+                    _currentDirection = _rotator.RotateLeft(_currentDirection);
                 }
 
                 if (command == 'M')
                 {
-                    if (_direction == "E" || _direction == "W") _x += 1;
-                    else _y += 1;
+                    _currentPosition = _mover.Move(_currentDirection, _currentPosition);
                 }
             }
 
-            return $"{_x}:{_y}:{_direction}"; ;
+            return $"{_currentPosition.GetX()}:" +
+                   $"{_currentPosition.GetY()}:" +
+                   $"{_currentDirection}";
         }
     }
 }
