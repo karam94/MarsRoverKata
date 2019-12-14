@@ -2,15 +2,18 @@ namespace MarsRoverKata
 {
     public class MarsRover
     {
-        private readonly MarsRoverRotator _rotator = new MarsRoverRotator();
-        private readonly MarsRoverMover _mover = new MarsRoverMover();
+        private readonly MarsRoverRotator _rotator;
+        private readonly MarsRoverGrid _grid;
         private string _currentDirection;
         private Coordinate _currentPosition;
 
-        public MarsRover()
+        public MarsRover(MarsRoverGrid grid)
         {
+            _grid = grid;
+
             _currentDirection = "N";
             _currentPosition = new Coordinate(0, 0);
+            _rotator = new MarsRoverRotator();
         }
 
         public string Execute(string commands)
@@ -29,7 +32,7 @@ namespace MarsRoverKata
 
                 if (command == 'M')
                 {
-                    _currentPosition = _mover.Move(_currentDirection, _currentPosition);
+                    _currentPosition = _grid.Move(_currentDirection, _currentPosition);
                 }
             }
 

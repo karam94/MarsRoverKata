@@ -11,7 +11,7 @@ namespace MarsRoverKataTests
         [SetUp]
         public void Setup()
         {
-            _rover = new MarsRover();
+            _rover = new MarsRover(new MarsRoverGrid(10, 10));
         }
 
         [Test]
